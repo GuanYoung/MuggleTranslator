@@ -39,7 +39,7 @@ namespace MuggleTranslator
                                                             )
                                     );
             SWF.MenuItem indexMenu = new SWF.MenuItem("主页", new EventHandler(
-                                                                        (sender, args) => { Process.Start("https://github.com/GuanYoung/MuggleTranslator"); }
+                                                                        (sender, args) => { Process.Start("https://hub.fastgit.org/GuanYoung/MuggleTranslator"); }
                                                             )
                                     );
 
