@@ -26,6 +26,7 @@ namespace MuggleTranslator
             MouseMonitor.Initialize();
 
             notifyIcon.Icon = new Icon("muggle.ico");
+            notifyIcon.Text = "1.0.0(Iron Man)";
             notifyIcon.Visible = true;
             notifyIcon.ShowBalloonTip(2000, "麻瓜翻译启动了", "选中文本后, 按一次Ctrl即翻译", SWF.ToolTipIcon.Info);
             notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
