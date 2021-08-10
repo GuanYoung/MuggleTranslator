@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="MuggleTranslator.UserControls.YoudaoTranslatorUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MuggleTranslator.UserControls"
+             xmlns:converter="clr-namespace:MuggleTranslator.Converter"
+             xmlns:customcontrols="clr-namespace:MuggleTranslator.CustomControls"
+             mc:Ignorable="d" d:DesignWidth="350">
+    <UserControl.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converter:BoolToVisibilityConverter Inverse="True"
+                                             x:Key="BoolToVisibilityInverseConverter" />
+    </UserControl.Resources>
+    <Border Background="White"
+            CornerRadius="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="18"
+                           UseLayoutRounding="True"
+                           VerticalAlignment="Center"
+                           Source="../Resources/youdao.png"
+                           Margin="5 0 0 0" />
+                    <TextBlock Text="有道翻译"
+                               VerticalAlignment="Center"
+                               Foreground="#333333"
+                               FontWeight="Bold"
+                               Margin="5 0 0 0" />
+                </StackPanel>
+
+                <Grid Grid.Column="2">
+                    <!--loading按钮-->
+                    <customcontrols:LoadingControl Radius="5"
+                                                   Visibility="{Binding Translating, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                   Thickness="2"
+                                                   Foreground="Red"
+                                                   Margin="0 0 10 0" />
+
+                    <!--展开收起按钮-->
+                    <customcontrols:ToggleButtonControl CheckedIcon="../Resources/up.png"
+                                                        UnCheckedIcon="../Resources/down.png"
+                                                        IsChecked="{Binding Checked, Mode=TwoWay}"
+                                                        Margin="0 0 5 0"
+                                                        Visibility="{Binding Translating, Converter={StaticResource BoolToVisibilityInverseConverter}}">
+                        <customcontrols:ToggleButtonControl.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="content_control"
+                                                         Storyboard.TargetProperty="Height"
+                                                         From="{Binding ElementName=content_control, Path=ActualHeight}"
+                                                         To="0"
+                                                         Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="content_control"
+                                                         Storyboard.TargetProperty="Height"
+                                                         From="0"
+                                                         To="{Binding ElementName=content_control, Path=ActualHeight}"
+                                                         Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </customcontrols:ToggleButtonControl.Triggers>
+                    </customcontrols:ToggleButtonControl>
+
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Margin="5 0 5 0"
+                           x:Name="content_control"
+                           Height="0"
+                           TextWrapping="Wrap"
+                           Text="{Binding TargetText}" />
+
+                <StackPanel Grid.Row="1"
+                            Visibility="{Binding Checked, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <customcontrols:CircleButtonControl x:Name="button_copy"
+                                                        Command="{Binding CopyCommand}"
+                                                        Icon="../Resources/copy.png" />
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

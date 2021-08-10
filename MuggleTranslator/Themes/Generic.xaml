@@ -1,0 +1,104 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MuggleTranslator.CustomControls"
+    xmlns:converter="clr-namespace:MuggleTranslator.Converter">
+
+    <converter:RadiusToPathDataConverter x:Key="RadiusToPathDataConverter" />
+    
+    <Style TargetType="{x:Type local:LoadingControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:LoadingControl}">
+                    <Border HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                        <Path  Stroke="{TemplateBinding Foreground}"
+                               StrokeDashCap="Round"
+                               StrokeDashArray="0"
+                               StrokeThickness="{TemplateBinding Thickness}"
+                               Data="{TemplateBinding Radius, Converter={StaticResource RadiusToPathDataConverter}}">
+                            <Path.RenderTransform>
+                                <RotateTransform CenterX="{Binding Radius, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                 CenterY="{Binding Radius, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                            </Path.RenderTransform>
+
+                            <Path.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)"
+                                                             To="360"
+                                                             Duration="0:0:1"
+                                                             RepeatBehavior="Forever" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Path.Triggers>
+                        </Path>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ToggleButtonControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ToggleButtonControl}">
+                    <Image x:Name="btn_control"
+                           Cursor="Hand"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Width="{Binding ImageSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                           UseLayoutRounding="True"
+                           Source="{Binding UnCheckedIcon, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked"
+                                 Value="True">
+                            <Setter TargetName="btn_control"
+                                    Property="Source"
+                                    Value="{Binding CheckedIcon, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+
+    <Style TargetType="{x:Type local:CircleButtonControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CircleButtonControl}">
+                    <Grid Cursor="Hand">
+                        <Border CornerRadius="26"
+                                x:Name="border"
+                                Width="26"
+                                Height="26"
+                                Background="Transparent"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+
+                        <Image x:Name="btn_control"
+                               Width="14"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               UseLayoutRounding="True"
+                               Source="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="border"
+                                    Property="Background"
+                                    Value="#F5F5F5" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,79 @@
+﻿<Window x:Class="MuggleTranslator.View.UserConfigView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MuggleTranslator.View"
+        xmlns:converter="clr-namespace:MuggleTranslator.Converter"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Background="#F4F4F4"
+        Title="用户设置" Height="450" Width="350">
+    <Window.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <command:EventToCommand Command="{Binding WindowLoadedCommand}"
+                                    PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Bottom">
+            <Button Content="确定"
+                    Command="{Binding UpdateUserConfigCommand}"
+                    HorizontalAlignment="Right"
+                    Width="75"
+                    Height="28">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border x:Name="border"
+                                CornerRadius="5"
+                                Background="#FFD101"
+                                Cursor="Hand">
+                            <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                       FontFamily="microsoft yahei"
+                                       Text="确 定"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="#FFE12A" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+        
+        <StackPanel>
+            <CheckBox Content="启动截图翻译"
+                      IsChecked="{Binding EnableScreenshotTranlate, Mode=TwoWay}" />
+
+            <StackPanel Orientation="Horizontal"
+                        IsEnabled="{Binding EnableScreenshotTranlate}"
+                        Margin="0 8 0 0">
+                <Label Width="80"
+                       Content="API Key:" />
+                <TextBox Width="230"
+                         Text="{Binding ClientId, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        IsEnabled="{Binding EnableScreenshotTranlate}"
+                        Margin="0 8 0 0">
+                <Label Width="80"
+                       Content="Secret Key:" />
+                <TextBox Width="230"
+                         Text="{Binding ClientSecret, Mode=TwoWay}" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</Window>
