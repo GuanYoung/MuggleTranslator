@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +30,6 @@ namespace MuggleTranslator
             notifyIcon.ShowBalloonTip(2000, "麻瓜翻译启动了", "选中文本后, 按一次Ctrl即翻译", SWF.ToolTipIcon.Info);
             notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
 
-            // 退出按钮
             SWF.MenuItem exitMenu = new SWF.MenuItem("退出", new EventHandler(
                                                                         (sender, args) => { Application.Current.Shutdown(); }
                                                             )
@@ -38,10 +38,15 @@ namespace MuggleTranslator
                                                                         (sender, args) => { new UserConfigView().Show(); }
                                                             )
                                     );
+            SWF.MenuItem indexMenu = new SWF.MenuItem("主页", new EventHandler(
+                                                                        (sender, args) => { Process.Start("https://github.com/GuanYoung/MuggleTranslator"); }
+                                                            )
+                                    );
 
             // 右键菜单列表
             notifyIcon.ContextMenu = new SWF.ContextMenu(
-                                                    new SWF.MenuItem[] { 
+                                                    new SWF.MenuItem[] {
+                                                        indexMenu,
                                                         settingMenu, 
                                                         exitMenu 
                                                     }
