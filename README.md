@@ -16,6 +16,6 @@
 
 问题反馈： https://github.com/GuanYoung/MuggleTranslator/issues
 
-联系作者：
-B站：https://space.bilibili.com/1665919282
+联系作者：  
+B站：https://space.bilibili.com/1665919282  
 个人微信：woshiyangguan8
